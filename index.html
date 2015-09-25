@@ -3,8 +3,7 @@
     <meta charset="utf-8">
   </head>
   <body>
-    <script type="text/javascript" src="dist/indexbuster.wp.js" charset="utf-8"></script>
-    <h1>buster-timerange</h1>
+    <h1>Buster.TimeSeries</h1>
     <div>
       <img id="dateID" src="https://placeholdit.imgix.net/~text?txtsize=33&txt=default&w=350&h=150" alt="">
     </div>
@@ -20,20 +19,30 @@
         </div>
       </form>
     </div>
+
+    <!--  This script will be included at the top of the page, somewhere in the body -->
+    <script type="text/javascript" src="dist/indexbuster.wp.js" charset="utf-8"></script>
+    <!-- // END -->
+
+    <!-- This script is used to configure the TimeSeries component -->
     <script>
+
       var config = {
         targetDate: '2015-09-26 20:30-04:00',
         element: 'dateID',
+        evergreen_day_before: true,
+        evergreen_day_of: true,
         images: {
-          'today': 'https://placeholdit.imgix.net/~text?txtsize=33&txt=today&w=350&h=150',
-          'evergreen_ahead': 'https://placeholdit.imgix.net/~text?txtsize=33&txt=evergreen+ahead&w=350&h=150',
-          'evergreen_behind': 'https://placeholdit.imgix.net/~text?txtsize=33&txt=evergreen+behind&w=350&h=150',
-          '1_weeks_ahead': 'https://placeholdit.imgix.net/~text?txtsize=33&txt=1+weeks+ahead&w=350&h=150',
-          '1_days_ahead': 'https://placeholdit.imgix.net/~text?txtsize=33&txt=1+days+ahead&w=350&h=150',
-          '4_hours_ahead': 'https://placeholdit.imgix.net/~text?txtsize=33&txt=8+hours+ahead&w=350&h=150',
-          '1_weeks_behind': 'https://placeholdit.imgix.net/~text?txtsize=33&txt=1+weeks+behind&w=350&h=150',
-          '1_days_behind': 'https://placeholdit.imgix.net/~text?txtsize=33&txt=1+days+behind&w=350&h=150',
-          '22_hours_behind': 'https://placeholdit.imgix.net/~text?txtsize=33&txt=22+hours+behind&w=350&h=150'
+          '-1_weeks': 'https://placeholdit.imgix.net/~text?txtsize=33&txt=-1+weeks&w=350&h=150',
+          'evergreen_weeks_before': 'https://placeholdit.imgix.net/~text?txtsize=33&txt=evergreen+weeks+before&w=350&h=150',
+          '-1_days': 'https://placeholdit.imgix.net/~text?txtsize=33&txt=Tomorrow&w=350&h=150',
+          'evergreen_days_before': 'https://placeholdit.imgix.net/~text?txtsize=33&txt=evergreen+days+before&w=350&h=150',
+          '0_days': 'https://placeholdit.imgix.net/~text?txtsize=33&txt=Tonight&w=350&h=150',
+          '1_days': 'https://placeholdit.imgix.net/~text?txtsize=33&txt=Day After&w=350&h=150',
+          '0_weeks': 'https://placeholdit.imgix.net/~text?txtsize=33&txt=0+Weeks&w=350&h=150',
+          'evergreen_weeks_after': 'https://placeholdit.imgix.net/~text?txtsize=33&txt=Evergreen+Weeks+After&w=350&h=150',
+          'evergreen_day_before': 'https://placeholdit.imgix.net/~text?txtsize=33&txt=Evergreen+Day+Before&w=350&h=150',
+          'evergreen_day_of': 'https://placeholdit.imgix.net/~text?txtsize=33&txt=Evergreen+Day+Of&w=350&h=150'
         }
       };
 
@@ -41,7 +50,11 @@
 
       btr.init();
 
+      // This is just for testing and will be omitted for production.
       formHelper();
+
     </script>
+    <!-- END -->
+
   </body>
 </html>

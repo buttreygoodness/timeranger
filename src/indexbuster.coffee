@@ -1,78 +1,56 @@
 moment = require('moment')
 
-if !('contains' of String.prototype)
-  String::contains = (str, startIndex) ->
-    ''.indexOf.call(this, str, startIndex) != -1
-
 class BusterTimeSeries
   constructor: (@config) ->
     # config
-    # target_date: 2015-09-20 10:30-07:00           # An hour and minute time part with timezone offset
-    # current_date: 2015-09-20 10:30-07:00          # An hour and minute time part with timezone offset
+    # target_date: '2015-09-20 10:30-07:00'           # An hour and minute time part with timezone offset
+    # current_date: '2015-09-20 10:30-07:00'          # An hour and minute time part with timezone offset
+    # evergreen_day_before: Boolean                   # Display a special message on the day before air in perpetuity
+    # evergreen_day_of: Boolean                       # Display a special message on the day of air in perpetuity
 
   init: () ->
     @targetDate = @targetDate || moment(config.targetDate)
     @currentDate = @currentDate || moment()
+    @evergreen_day_before = config.evergreen_day_before || false
+    @evergreen_day_of = config.evergreen_day_of || false
     @element = document.getElementById config.element
-    @getOffset()
+    @getTimeDifference()
 
   update: (target_date, current_date) ->
     @targetDate = moment(target_date) || @targetDate
     @currentDate = moment(current_date) || @currentDate
-    console.log @targetDate, @currentDate
-    @getOffset()
-
-  getOffset: () ->
-    offsetString = @targetDate.fromNow()
-    weeks = @targetDate.diff(@currentDate, 'weeks')
-    days = @targetDate.diff(@currentDate, 'days')
-    hours = @targetDate.diff(@currentDate, 'hours')
     @getTimeDifference()
-    # @element.setAttribute('src', @getImage(weeks, days, hours))
+  
+  setElementImage: (image_name) ->
+    @element.setAttribute 'src', image_name
 
   getTimeDifference: () ->
     week_before = @currentDate.isBefore(@targetDate, 'week')
     this_week = @currentDate.isSame(@targetDate, 'week')
     week_after = @currentDate.isAfter(@targetDate, 'week')
-    day_before = @currentDate.isBefore(@targetDate, 'day')
-    day_after = @currentDate.isAfter(@targetDate, 'day')
-    today = @currentDate.isSame(@targetDate, 'day')
 
-    console.log 'week_before = ' + week_before
-    console.log 'today = ' + today
-    console.log 'day_before = ' + day_before
-    console.log 'day_after = ' + day_after
-    console.log 'this_week = ' + this_week
-    console.log 'week_after = ' + week_after
+    if week_before
+      return @setWeekBeforeImage()
+    if this_week
+      return @setThisWeekImage()
+    if week_after
+      return @setWeekAfterImage()
 
   setWeekBeforeImage: ->
+    weeks_before = @currentDate.diff(@targetDate, 'weeks')
+    @setElementImage @config.images[weeks_before + '_weeks'] || @config.images.evergreen_weeks_before
 
   setThisWeekImage: ->
+    days_before = @currentDate.diff(@targetDate, 'days')
+    @setElementImage @config.images[days_before + '_days'] || @config.images.evergreen_days_before
 
   setWeekAfterImage: ->
-
-  setDayBeforeImage: ->
-
-  setTodayImage: ->
-
-  setDayAfterImage: ->
-
-  getImage: (weeks, days, hours) ->
-    console.log weeks, days, hours
-    if weeks == 0 && days == 0 #more than one hour ahead
-      return @config.images[hours + '_hours_behind'] || @config.images.today
-    if weeks > 0 #more than one week ahead
-      return @config.images[weeks + '_weeks_ahead'] || @config.images.evergreen_ahead
-    if days > 0 #more than one day ahead
-      return @config.images[days + '_days_ahead'] || @config.images.evergreen_ahead
-    if hours > 0 #more than one hour ahead
-      return @config.images[hours + '_hours_ahead'] || @config.images.evergreen_ahead
-    if weeks < 0 #more than one week ahead
-      return @config.images[weeks + '_weeks_behind'] || @config.images.evergreen_behind
-    if days < 0 #more than one day ahead
-      return @config.images[days + '_days_behind'] || @config.images.evergreen_behind
-    if hours < 0 #more than one hour ahead
-      return @config.images[hours + '_hours_behind'] || @config.images.evergreen_behind
+    weeks_after = @currentDate.diff(@targetDate, 'weeks')
+    if @currentDate.isoWeekday() == @targetDate.isoWeekday() && @evergreen_day_of
+      return @setElementImage @config.images.evergreen_day_of
+    if @currentDate.isoWeekday() == @targetDate.isoWeekday() - 1 && @evergreen_day_before
+      return @setElementImage @config.images.evergreen_day_before
+    @setElementImage @config.images[weeks_after + '_weeks'] || @config.images.evergreen_weeks_after
 
 window.BusterTimeSeries = BusterTimeSeries
 
@@ -85,10 +63,8 @@ window.formHelper = ->
 
   current_date.addEventListener 'change', ->
     if btr
-      console.log target_date
       btr.update target_date.value, @value
 
   target_date.addEventListener 'change', ->
-    console.log 'target_date changed', @value
     if btr
       btr.update @value, current_date.value
