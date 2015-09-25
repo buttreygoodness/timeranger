@@ -8,6 +8,18 @@
     <div>
       <img id="dateID" src="https://placeholdit.imgix.net/~text?txtsize=33&txt=default&w=350&h=150" alt="">
     </div>
+    <div style="margin-top: 2rem;">
+      <form action="#" id="dateForm">
+        <div>
+          <label for="current_date">Current Date</label>
+          <input type="datetime" name="current_date" id="current_date" style="width: 300px;">
+        </div>
+        <div>
+          <label for="target_date">Target Date</label>
+          <input type="datetime" name="target_date" id="target_date" style="width: 300px;">
+        </div>
+      </form>
+    </div>
     <script>
       var config = {
         targetDate: '2015-09-26 20:30-04:00',
@@ -28,6 +40,8 @@
       var btr = new BusterTimeSeries(config);
 
       btr.init();
+
+      formHelper();
     </script>
   </body>
 </html>
