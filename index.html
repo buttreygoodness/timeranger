@@ -3,6 +3,31 @@
     <meta charset="utf-8">
   </head>
   <body>
-    <script type="text/javascript" src="dist/bundle.js" charset="utf-8"></script>
+    <script type="text/javascript" src="dist/indexbuster.wp.js" charset="utf-8"></script>
+    <h1>buster-timerange</h1>
+    <div>
+      <img id="dateID" src="https://placeholdit.imgix.net/~text?txtsize=33&txt=default&w=350&h=150" alt="">
+    </div>
+    <script>
+      var config = {
+        targetDate: '2015-09-26 20:30-04:00',
+        element: 'dateID',
+        images: {
+          'today': 'https://placeholdit.imgix.net/~text?txtsize=33&txt=today&w=350&h=150',
+          'evergreen_ahead': 'https://placeholdit.imgix.net/~text?txtsize=33&txt=evergreen+ahead&w=350&h=150',
+          'evergreen_behind': 'https://placeholdit.imgix.net/~text?txtsize=33&txt=evergreen+behind&w=350&h=150',
+          '1_weeks_ahead': 'https://placeholdit.imgix.net/~text?txtsize=33&txt=1+weeks+ahead&w=350&h=150',
+          '1_days_ahead': 'https://placeholdit.imgix.net/~text?txtsize=33&txt=1+days+ahead&w=350&h=150',
+          '4_hours_ahead': 'https://placeholdit.imgix.net/~text?txtsize=33&txt=8+hours+ahead&w=350&h=150',
+          '1_weeks_behind': 'https://placeholdit.imgix.net/~text?txtsize=33&txt=1+weeks+behind&w=350&h=150',
+          '1_days_behind': 'https://placeholdit.imgix.net/~text?txtsize=33&txt=1+days+behind&w=350&h=150',
+          '22_hours_behind': 'https://placeholdit.imgix.net/~text?txtsize=33&txt=22+hours+behind&w=350&h=150'
+        }
+      };
+
+      var btr = new BusterTimeSeries(config);
+
+      btr.init();
+    </script>
   </body>
 </html>

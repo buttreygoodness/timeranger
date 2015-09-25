@@ -6,6 +6,10 @@ var coffee = require('gulp-coffee'),
     uglify = require('gulp-uglify'),
     webpack = require('gulp-webpack');
 
+var paths = {
+  scripts: ['./src/**/*.coffee']
+};
+
 gulp.task('coffeescript', function () {
   return gulp.src('src/*.coffee')
     .pipe(coffee({bare:true}).on('error', gutil.log))
@@ -35,6 +39,17 @@ gulp.task('uglify', function () {
     .pipe(gulp.dest('./dist/'));
 });
 
-gulp.task('default', function(cb) {
-  runSequence('coffeescript', 'webpack', 'uglify', cb);
+gulp.task('move', function () {
+  gulp.src('./src/indexbuster.js')
+    .pipe(gulp.dest('./dist/'))
 });
+
+gulp.task('watch', function () {
+  gulp.watch(paths.scripts, ['insequence']);
+});
+
+gulp.task('insequence', function (cb) {
+  runSequence('coffeescript', 'webpack', 'uglify', 'move', cb);
+});
+
+gulp.task('default', ['insequence']);
