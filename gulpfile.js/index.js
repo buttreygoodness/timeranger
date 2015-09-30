@@ -1,4 +1,5 @@
 var coffee = require('gulp-coffee'),
+    concat = require('gulp-concat'),
     gulp = require('gulp'),
     gutil = require('gulp-util'),
     mocha = require('gulp-mocha'),
@@ -20,6 +21,12 @@ gulp.task('webpack', function () {
    return gulp.src('./src/indexbuster.js')
     .pipe(webpack({output: {filename: 'indexbuster.wp.js'}}))
     .pipe(gulp.dest('./dist/'));
+});
+
+gulp.task('concat', function () {
+  return gulp.src(['./src/moment.min.js', './src/indexbuster.js'])
+    .pipe(concat('timerange.js'))
+    .pipe(gulp.dest('./dist/'))
 });
 
 gulp.task('test', function () {
@@ -49,7 +56,8 @@ gulp.task('watch', function () {
 });
 
 gulp.task('insequence', function (cb) {
-  runSequence('coffeescript', 'webpack', 'uglify', 'move', cb);
+  // runSequence('coffeescript', 'webpack', 'uglify', 'move', cb);
+  runSequence('coffeescript', 'concat', 'move', cb);
 });
 
 gulp.task('default', ['insequence']);

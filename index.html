@@ -5,44 +5,49 @@
   <body>
     <h1>Buster.TimeSeries</h1>
     <div>
-      <img id="dateID" src="https://placeholdit.imgix.net/~text?txtsize=33&txt=default&w=350&h=150" alt="">
+      <img id="dateID" src="https://placeholdit.imgix.net/~text?txtsize=33&txt=Buster.TimeSeries&w=350&h=150" alt="">
     </div>
     <div style="margin-top: 2rem;">
       <form action="#" id="dateForm">
         <div>
           <label for="current_date">Current Date</label>
           <input type="datetime" name="current_date" id="current_date" style="width: 300px;">
+          <span id="day-of-week"></span>
+          <a href="#" id="previous"><</a>
+          <a href="#" id="next">></a>
         </div>
         <div>
           <label for="target_date">Target Date</label>
-          <input type="datetime" name="target_date" id="target_date" style="width: 300px;">
+          <input type="datetime" name="target_date" id="target_date" style="width: 300px;" disabled="true">
         </div>
       </form>
     </div>
 
     <!--  This script will be included at the top of the page, somewhere in the body -->
-    <script type="text/javascript" src="dist/indexbuster.wp.js" charset="utf-8"></script>
+    <script type="text/javascript" src="dist/timerange.js" charset="utf-8"></script>
+    <!-- <script type="text/javascript" src="src/date_difference.js" charset="utf-8"></script> -->
     <!-- // END -->
 
     <!-- This script is used to configure the TimeSeries component -->
     <script>
 
       var config = {
-        targetDate: '2015-09-26 20:30-04:00',
+        targetDate: new Date('2015-09-26 20:30 -04:00'),
         element: 'dateID',
         evergreen_day_before: true,
         evergreen_day_of: true,
         images: {
-          '-1_weeks': 'https://placeholdit.imgix.net/~text?txtsize=33&txt=-1+weeks&w=350&h=150',
-          'evergreen_weeks_before': 'https://placeholdit.imgix.net/~text?txtsize=33&txt=evergreen+weeks+before&w=350&h=150',
-          '-1_days': 'https://placeholdit.imgix.net/~text?txtsize=33&txt=Tomorrow&w=350&h=150',
-          'evergreen_days_before': 'https://placeholdit.imgix.net/~text?txtsize=33&txt=evergreen+days+before&w=350&h=150',
-          '0_days': 'https://placeholdit.imgix.net/~text?txtsize=33&txt=Tonight&w=350&h=150',
-          '1_days': 'https://placeholdit.imgix.net/~text?txtsize=33&txt=Day After&w=350&h=150',
-          '0_weeks': 'https://placeholdit.imgix.net/~text?txtsize=33&txt=0+Weeks&w=350&h=150',
-          'evergreen_weeks_after': 'https://placeholdit.imgix.net/~text?txtsize=33&txt=Evergreen+Weeks+After&w=350&h=150',
-          'evergreen_day_before': 'https://placeholdit.imgix.net/~text?txtsize=33&txt=Evergreen+Day+Before&w=350&h=150',
-          'evergreen_day_of': 'https://placeholdit.imgix.net/~text?txtsize=33&txt=Evergreen+Day+Of&w=350&h=150'
+          '-2_weeks': 'https://placeholdit.imgix.net/~text?txtsize=33&txt=Outside+Two+Weeks&w=350&h=250',
+          '-1_weeks': 'https://placeholdit.imgix.net/~text?txtsize=33&txt=Outside+One+Week&w=350&h=250',
+          '0_weeks': 'https://placeholdit.imgix.net/~text?txtsize=33&txt=This+Week&w=350&h=250',
+          'outside_weeks_before': 'https://placeholdit.imgix.net/~text?txtsize=33&txt=Outside+Weeks+Before&w=350&h=250',
+          'outside_days_before': 'https://placeholdit.imgix.net/~text?txtsize=33&txt=Outside+Days+Before&w=350&h=250',
+          '-1_days': 'https://placeholdit.imgix.net/~text?txtsize=33&txt=Tomorrow&w=350&h=250',
+          '0_days': 'https://placeholdit.imgix.net/~text?txtsize=33&txt=Tonight&w=350&h=250',
+          '1_days': 'https://placeholdit.imgix.net/~text?txtsize=33&txt=Yesterday&w=350&h=250',
+          'evergreen_weeks_after': 'https://placeholdit.imgix.net/~text?txtsize=33&txt=Evergreen+Weeks+After&w=350&h=250',
+          'evergreen_day_before': 'https://placeholdit.imgix.net/~text?txtsize=33&txt=Evergreen+Day+Before&w=350&h=250',
+          'evergreen_day_of': 'https://placeholdit.imgix.net/~text?txtsize=33&txt=Evergreen+Day+Of&w=350&h=250'
         }
       };
 
@@ -51,7 +56,7 @@
       btr.init();
 
       // This is just for testing and will be omitted for production.
-      formHelper();
+      formHelper(btr);
 
     </script>
     <!-- END -->
