@@ -5,6 +5,7 @@
   <body>
     <h1>Buster.TimeSeries</h1>
     <div>
+      <video id="videoID" muted="" controls="" source="./video/video_01.mp4" autoplay=""></video>
       <img id="dateID" src="./img/default_image.png" alt="">
     </div>
     <div style="margin-top: 2rem;">
@@ -32,8 +33,10 @@
     <script>
 
       var config = {
-        targetDate: new Date('2015-09-26 20:30 -04:00'),
-        element: 'dateID',
+        targetDate: new Date('2015-10-01T18:00:00-04:00'),
+        targetShowDuration: 59,
+        imageElement: 'dateID',
+        videoElement: 'videoID',
         evergreen_day_before: true,
         evergreen_day_of: true,
         images: {
@@ -42,11 +45,21 @@
           '0_weeks': './img/this_week.png',
           'outside_weeks_before': './img/outside_weeks_before.png',
           'outside_days_before': './img/outside_days_before.png',
-          '-1_days': './img/tomorrow.png',
+          '0_days': './img/tomorrow.png',
           'tonight': './img/tonight.png',
           'evergreen_weeks_after': './img/evergreen_weeks_after.png',
           'evergreen_day_before': './img/evergreen_day_before.png',
           'evergreen_day_of': './img/evergreen_day_of.png'
+        },
+        videos: {
+          'outside_weeks_before': './video/video_01.mp4',
+          'outside_days_before': './video/video_05.mp4',
+          '0_weeks': './video/video_02.mp4', // This week
+          '-1_days': './video/video_03.mp4', // Tomorrow
+          'tonight': './video/video_04.mp4', // Tonight
+          'evergreen_weeks_after': './video/video_05.mp4',
+          'evergreen_day_before': './video/video_03.mp4',
+          'evergreen_day_of': './video/video_04.mp4'
         }
       };
 

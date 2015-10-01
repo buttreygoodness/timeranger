@@ -7,11 +7,9 @@ BusterTimeSeries = (function() {
 
   BusterTimeSeries.prototype.init = function() {
     this.targetDate = this.targetDate || moment(this.config.targetDate);
-    console.log(this.config.targetDate, this.targetDate);
     this.currentDate = this.currentDate || moment();
     this.evergreen_day_before = this.config.evergreen_day_before || false;
     this.evergreen_day_of = this.config.evergreen_day_of || false;
-    this.element = document.getElementById(this.config.element);
     return this.getTimeDifference();
   };
 
@@ -21,11 +19,24 @@ BusterTimeSeries = (function() {
     return this.getTimeDifference();
   };
 
-  BusterTimeSeries.prototype.setElementImage = function(image_name) {
+  BusterTimeSeries.prototype.setImageElement = function(image_uri) {
     var el;
-    el = document.getElementById(this.config.element);
-    el.setAttribute('src', image_name);
-    return el.setAttribute('source', image_name);
+    if (!this.config.imageElement) {
+      return;
+    }
+    el = document.getElementById(this.config.imageElement);
+    el.setAttribute('src', image_uri);
+    return el.setAttribute('source', image_uri);
+  };
+
+  BusterTimeSeries.prototype.setVideoElement = function(video_uri) {
+    var el;
+    if (!this.config.videoElement) {
+      return;
+    }
+    el = document.getElementById(this.config.videoElement);
+    el.setAttribute('src', video_uri);
+    return el.setAttribute('source', video_uri);
   };
 
   BusterTimeSeries.prototype.getTimeDifference = function() {
@@ -50,33 +61,41 @@ BusterTimeSeries = (function() {
   BusterTimeSeries.prototype.setWeekBeforeImage = function() {
     var weeks_before;
     weeks_before = this.currentDate.diff(this.targetDate, 'weeks');
-    console.log('weeks_before = ', weeks_before);
-    return this.setElementImage(this.config.images[weeks_before + '_weeks'] || this.config.images.outside_weeks_before);
+    this.setImageElement(this.config.images[weeks_before + '_weeks'] || this.config.images.outside_weeks_before);
+    return this.setVideoElement(this.config.videos[weeks_before + '_weeks'] || this.config.videos.outside_weeks_before);
   };
 
   BusterTimeSeries.prototype.setThisWeekImage = function() {
-    var days_before;
+    var days_before, temp_target_date;
     days_before = this.currentDate.diff(this.targetDate, 'days');
+    temp_target_date = moment(this.config.targetDate);
+    if (this.currentDate.isAfter(this.targetDate, 'day') || this.currentDate.isAfter(temp_target_date.add(this.config.targetShowDuration, 'minutes'))) {
+      return this.setWeekAfterImage(false);
+    }
     if (this.currentDate.isoWeekday() === this.targetDate.isoWeekday()) {
-      return this.setElementImage(this.config.images.tonight);
+      this.setVideoElement(this.config.videos.tonight);
+      this.setImageElement(this.config.images.tonight);
+      return;
     }
-    if (this.currentDate.isAfter(this.targetDate, 'day')) {
-      return this.setWeekAfterImage();
-    }
-    return this.setElementImage(this.config.images[days_before + '_days'] || this.config.images.outside_days_before);
+    this.setVideoElement(this.config.videos[days_before + '_days'] || this.config.videos.outside_days_before || this.config.videos.outside_weeks_before);
+    return this.setImageElement(this.config.images[days_before + '_days'] || this.config.images.outside_days_before);
   };
 
-  BusterTimeSeries.prototype.setWeekAfterImage = function() {
+  BusterTimeSeries.prototype.setWeekAfterImage = function(evergreen) {
     var weeks_after;
     weeks_after = this.currentDate.diff(this.targetDate, 'weeks');
-    console.log('weeks_after = ', weeks_after);
-    if (this.currentDate.isoWeekday() === this.targetDate.isoWeekday() && this.evergreen_day_of) {
-      return this.setElementImage(this.config.images.evergreen_day_of);
+    if (evergreen !== false) {
+      if (this.currentDate.isoWeekday() === this.targetDate.isoWeekday() && this.evergreen_day_of) {
+        this.setVideoElement(this.config.videos.evergreen_day_of);
+        return this.setImageElement(this.config.images.evergreen_day_of);
+      }
+      if (this.currentDate.isoWeekday() === this.targetDate.isoWeekday() - 1 && this.evergreen_day_before) {
+        this.setVideoElement(this.config.videos.evergreen_day_before);
+        return this.setImageElement(this.config.images.evergreen_day_before);
+      }
     }
-    if (this.currentDate.isoWeekday() === this.targetDate.isoWeekday() - 1 && this.evergreen_day_before) {
-      return this.setElementImage(this.config.images.evergreen_day_before);
-    }
-    return this.setElementImage(this.config.images[weeks_after + '_weeks_after'] || this.config.images.evergreen_weeks_after);
+    this.setVideoElement(this.config.videos[weeks_after + '_weeks_after'] || this.config.videos.evergreen_weeks_after);
+    return this.setImageElement(this.config.images[weeks_after + '_weeks_after'] || this.config.images.evergreen_weeks_after);
   };
 
   return BusterTimeSeries;
