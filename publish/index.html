@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html><head data-gwd-animation-mode="proMode"><meta name="GCD" content="YTk3ODQ3ZWZhN2I4NzZmMzBkNTEwYjJl67ac92aefa58785fbd62da336dc31b6d"/>
+<html><head data-gwd-animation-mode="proMode"><meta name="GCD" content="YTk3ODQ3ZWZhN2I4NzZmMzBkNTEwYjJl100dbf780bfd63c24239659d3edbe48d"/>
   <meta name="gwd:studio-creative-association" content="acct=20681401;adv=20703978;camp=38926439;cr=38944404;assets={38928525,38928524,38928523,};">
   <meta charset="utf-8">
   <meta name="generator" content="Google Web Designer 1.4.2.0915">
@@ -94,7 +94,7 @@ Nd.millisecond=Nd.milliseconds=Md,Nd.utcOffset=Na,Nd.utc=Pa,Nd.local=Qa,Nd.parse
 
 /**
  * Class for determining time ranges and applying corresponding changes to the dom.
- * @param
+ * @param {Object} config configuration file containing directives.
  */
 var BusterTimeSeries;
 
@@ -129,12 +129,11 @@ BusterTimeSeries = (function() {
 
   BusterTimeSeries.prototype.setVideoElement = function(video_uri) {
     var el;
-    console.log('setVideoElement');
     if (!this.config.videoElement) {
       return;
     }
     el = document.getElementById(this.config.videoElement);
-    if (gwd) {
+    if (window.gwd) {
       el.gwdDeactivate();
       el.setAttribute('sources', video_uri);
       return setTimeout(function() {
@@ -207,43 +206,6 @@ BusterTimeSeries = (function() {
 })();
 
 window.BusterTimeSeries = BusterTimeSeries;
-
-window.formHelper = function(btr) {
-  var current_date, day_of_week, next_button, previous_button, target_date;
-  current_date = document.getElementById('current_date');
-  current_date.value = btr.currentDate.format();
-  target_date = document.getElementById('target_date');
-  target_date.value = btr.targetDate.format();
-  previous_button = document.getElementById('previous');
-  next_button = document.getElementById('next');
-  day_of_week = document.getElementById('day-of-week');
-  day_of_week.textContent = btr.currentDate.weekday();
-  current_date.addEventListener('change', function() {
-    if (btr) {
-      btr.update(target_date.value, this.value);
-      return day_of_week.textContent = moment(this.value).weekday();
-    }
-  });
-  target_date.addEventListener('change', function() {
-    if (btr) {
-      return btr.update(this.value, current_date.value);
-    }
-  });
-  next_button.addEventListener('click', function(event) {
-    if (btr) {
-      btr.update(target_date.value, btr.currentDate.add(1, 'days'));
-      document.getElementById('current_date').value = btr.currentDate.format();
-      return day_of_week.textContent = btr.currentDate.weekday();
-    }
-  });
-  return previous_button.addEventListener('click', function(event) {
-    if (btr) {
-      btr.update(target_date.value, btr.currentDate.subtract(1, 'days'));
-      document.getElementById('current_date').value = btr.currentDate.format();
-      return day_of_week.textContent = btr.currentDate.weekday();
-    }
-  });
-};
 </script>
   <script data-source="gwdtaparea_min.js" data-version="3" data-exports-type="gwd-taparea" type="text/javascript">-function(){"use strict";var b;var c=[],e=function(a){a=c.indexOf(a);0<=a&&c.splice(a,1)};document.addEventListener("click",function(a){for(var d=0;d<c.length;d++)if(25>Math.abs(a.clientX-c[d].l)&&25>Math.abs(a.clientY-c[d].m)||25>Math.abs(a.screenX-c[d].v)&&25>Math.abs(a.screenY-c[d].w))c.splice(d,1),a.stopPropagation(),a.preventDefault()},!0);var f=function(){};goog.inherits(f,HTMLElement);b=f.prototype;b.createdCallback=function(){this.j=this.i=0;this.f=this.b=this.g=this.c=null;this.a=!0};
 b.attachedCallback=function(){this.b||(this.c=this.h.bind(this),this.g=this.u.bind(this),this.b=this.s.bind(this),this.f=this.o.bind(this));this.addEventListener("click",this.c,!1);this.addEventListener("touchstart",this.g,!1)};b.detachedCallback=function(){this.removeEventListener("click",this.c,!1);this.removeEventListener("touchstart",this.g,!1)};b.h=function(){if(this.a){var a;a=document.createEvent("Event");a.initEvent("action",!0,!0);this.dispatchEvent(a)}this.a=!0};
@@ -282,7 +244,7 @@ b.attributeChangedCallback=null;document.registerElement("gwd-taparea",{prototyp
         // This is a good place to show a loading or branding image while
         // the ad loads.
         var config = {
-          targetDate: new Date('2015-10-01T18:00:00-04:00'),
+          targetDate: new Date('2015-10-31T18:00:00-04:00'),
           targetShowDuration: 59,
           imageElement: 'dateID',
           videoElement: 'videoID',
