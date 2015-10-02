@@ -1,3 +1,8 @@
+
+/**
+ * Class for determining time ranges and applying corresponding changes to the dom.
+ * @param {Object} config configuration file containing directives.
+ */
 var BusterTimeSeries;
 
 BusterTimeSeries = (function() {
@@ -35,8 +40,16 @@ BusterTimeSeries = (function() {
       return;
     }
     el = document.getElementById(this.config.videoElement);
-    el.setAttribute('src', video_uri);
-    return el.setAttribute('source', video_uri);
+    if (window.gwd) {
+      el.gwdDeactivate();
+      el.setAttribute('sources', video_uri);
+      return setTimeout(function() {
+        el.src = el.childNodes[0].src;
+        return el.load();
+      }, 500);
+    } else {
+      return el.setAttribute('src', video_uri);
+    }
   };
 
   BusterTimeSeries.prototype.getTimeDifference = function() {
@@ -45,15 +58,12 @@ BusterTimeSeries = (function() {
     this_week = this.currentDate.isSame(this.targetDate, 'week');
     week_after = this.currentDate.isAfter(this.targetDate, 'week');
     if (week_before) {
-      console.log('week_before');
       return this.setWeekBeforeImage();
     }
     if (this_week) {
-      console.log('this_week');
       return this.setThisWeekImage();
     }
     if (week_after) {
-      console.log('week_after');
       return this.setWeekAfterImage();
     }
   };
@@ -103,40 +113,3 @@ BusterTimeSeries = (function() {
 })();
 
 window.BusterTimeSeries = BusterTimeSeries;
-
-window.formHelper = function(btr) {
-  var current_date, day_of_week, next_button, previous_button, target_date;
-  current_date = document.getElementById('current_date');
-  current_date.value = btr.currentDate.format();
-  target_date = document.getElementById('target_date');
-  target_date.value = btr.targetDate.format();
-  previous_button = document.getElementById('previous');
-  next_button = document.getElementById('next');
-  day_of_week = document.getElementById('day-of-week');
-  day_of_week.textContent = btr.currentDate.weekday();
-  current_date.addEventListener('change', function() {
-    if (btr) {
-      btr.update(target_date.value, this.value);
-      return day_of_week.textContent = moment(this.value).weekday();
-    }
-  });
-  target_date.addEventListener('change', function() {
-    if (btr) {
-      return btr.update(this.value, current_date.value);
-    }
-  });
-  next_button.addEventListener('click', function(event) {
-    if (btr) {
-      btr.update(target_date.value, btr.currentDate.add(1, 'days'));
-      document.getElementById('current_date').value = btr.currentDate.format();
-      return day_of_week.textContent = btr.currentDate.weekday();
-    }
-  });
-  return previous_button.addEventListener('click', function(event) {
-    if (btr) {
-      btr.update(target_date.value, btr.currentDate.subtract(1, 'days'));
-      document.getElementById('current_date').value = btr.currentDate.format();
-      return day_of_week.textContent = btr.currentDate.weekday();
-    }
-  });
-};

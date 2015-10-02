@@ -1,63 +1,76 @@
 var coffee = require('gulp-coffee'),
-    concat = require('gulp-concat'),
-    gulp = require('gulp'),
-    gutil = require('gulp-util'),
-    mocha = require('gulp-mocha'),
-    runSequence = require('run-sequence'),
-    uglify = require('gulp-uglify'),
-    webpack = require('gulp-webpack');
+  concat = require('gulp-concat'),
+  gulp = require('gulp'),
+  gutil = require('gulp-util'),
+  mocha = require('gulp-mocha'),
+  runSequence = require('run-sequence'),
+  uglify = require('gulp-uglify'),
+  webpack = require('gulp-webpack');
 
 var paths = {
   scripts: ['./src/**/*.coffee']
 };
 
-gulp.task('coffeescript', function () {
+gulp.task('coffeescript', function() {
   return gulp.src('src/*.coffee')
-    .pipe(coffee({bare:true}).on('error', gutil.log))
+    .pipe(coffee({
+      bare: true
+    }).on('error', gutil.log))
     .pipe(gulp.dest('src'))
 });
 
-gulp.task('webpack', function () {
-   return gulp.src('./src/indexbuster.js')
-    .pipe(webpack({output: {filename: 'indexbuster.wp.js'}}))
+gulp.task('webpack', function() {
+  return gulp.src('./src/indexbuster.js')
+    .pipe(webpack({
+      output: {
+        filename: 'indexbuster.wp.js'
+      }
+    }))
     .pipe(gulp.dest('./dist/'));
 });
 
-gulp.task('concat', function () {
+gulp.task('concat', function() {
   return gulp.src(['./src/moment.min.js', './src/indexbuster.js'])
     .pipe(concat('timerange.js'))
     .pipe(gulp.dest('./dist/'))
 });
 
-gulp.task('test', function () {
-  return gulp.src('test.js', {read: false})
-    .pipe(mocha({reporter: 'nyan'}))
+gulp.task('test', function() {
+  return gulp.src('test.js', {
+      read: false
+    })
+    .pipe(mocha({
+      reporter: 'nyan'
+    }))
     .once('error', function() {
       process.exit(1);
     })
-    .once('end', function () {
+    .once('end', function() {
       process.exit();
     });
 });
 
-gulp.task('uglify', function () {
-  return gulp.src('./dist/**/*.js')
+gulp.task('uglify', function() {
+  return gulp.src('./dist/timerange.js')
     .pipe(uglify())
-    .pipe(gulp.dest('./dist/'));
+    .pipe(gulp.dest('./dist/timerange.ugly'));
 });
 
-gulp.task('move', function () {
+gulp.task('move', function() {
   gulp.src('./src/indexbuster.js')
     .pipe(gulp.dest('./dist/'))
+  gulp.src('./dist/timerange.js')
+    .pipe(gulp.dest('./date_test_gwd/'))
+    .pipe(gulp.dest('./date_test_gwd/gwd_preview'))
 });
 
-gulp.task('watch', function () {
+gulp.task('watch', function() {
   gulp.watch(paths.scripts, ['insequence']);
 });
 
-gulp.task('insequence', function (cb) {
+gulp.task('insequence', function(cb) {
   // runSequence('coffeescript', 'webpack', 'uglify', 'move', cb);
-  runSequence('coffeescript', 'concat', 'move', cb);
+  runSequence('coffeescript', 'concat', 'move', 'uglify', cb);
 });
 
 gulp.task('default', ['insequence']);

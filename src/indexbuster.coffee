@@ -1,13 +1,15 @@
-# moment = require('moment')
+#! timerange.js
+#! version : 1.0.0
+#! authors : Buster, Inc.
+#! license : GPL2
 
+###*
+ * Class for determining time ranges and applying corresponding changes to the dom.
+ * @param {Object} config configuration file containing directives.
+###
 class BusterTimeSeries
   constructor: (@config) ->
-    # config
-    # target_date: '2015-09-20 10:30-07:00'           # An hour and minute time part with timezone offset
-    # current_date: '2015-09-20 10:30-07:00'          # An hour and minute time part with timezone offset
-    # evergreen_day_before: Boolean                   # Display a special message on the day before air in perpetuity
-    # evergreen_day_of: Boolean                       # Display a special message on the day of air in perpetuity
-
+  
   init: () ->
     @targetDate = @targetDate || moment(@config.targetDate)
     @currentDate = @currentDate || moment()
@@ -30,9 +32,19 @@ class BusterTimeSeries
   setVideoElement: (video_uri) ->
     if !@config.videoElement
       return
+    
     el = document.getElementById @config.videoElement
-    el.setAttribute 'src', video_uri
-    el.setAttribute 'source', video_uri
+
+    if window.gwd
+      el.gwdDeactivate()
+      el.setAttribute 'sources', video_uri
+
+      setTimeout () ->
+        el.src = el.childNodes[0].src
+        el.load()
+      , 500
+    else
+      el.setAttribute 'src', video_uri
 
   getTimeDifference: () ->
     week_before = @currentDate.isBefore(@targetDate, 'week')
@@ -40,13 +52,10 @@ class BusterTimeSeries
     week_after = @currentDate.isAfter(@targetDate, 'week')
 
     if week_before
-      console.log 'week_before'
       return @setWeekBeforeImage()
     if this_week
-      console.log 'this_week'
       return @setThisWeekImage()
     if week_after
-      console.log 'week_after'
       return @setWeekAfterImage()
 
   setWeekBeforeImage: ->
@@ -79,38 +88,4 @@ class BusterTimeSeries
     @setImageElement @config.images[weeks_after + '_weeks_after'] || @config.images.evergreen_weeks_after
 
 window.BusterTimeSeries = BusterTimeSeries
-
-window.formHelper = (btr) ->
-  current_date = document.getElementById('current_date')
-  current_date.value = btr.currentDate.format()
-
-  target_date = document.getElementById('target_date')
-  target_date.value = btr.targetDate.format()
-
-  previous_button = document.getElementById('previous')
-  next_button = document.getElementById('next')
-
-  day_of_week = document.getElementById('day-of-week')
-  day_of_week.textContent = btr.currentDate.weekday()
-
-  current_date.addEventListener 'change', ->
-    if btr
-      btr.update target_date.value, @value
-      day_of_week.textContent = moment(@value).weekday()
-
-  target_date.addEventListener 'change', ->
-    if btr
-      btr.update @value, current_date.value
-
-  next_button.addEventListener 'click', (event)->
-    if btr
-      btr.update target_date.value, btr.currentDate.add(1, 'days')
-      document.getElementById('current_date').value = btr.currentDate.format()
-      day_of_week.textContent = btr.currentDate.weekday()
-
-  previous_button.addEventListener 'click', (event)->
-    if btr
-      btr.update target_date.value, btr.currentDate.subtract(1, 'days')
-      document.getElementById('current_date').value = btr.currentDate.format()
-      day_of_week.textContent = btr.currentDate.weekday()
 
