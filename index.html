@@ -29,11 +29,13 @@
     <!-- <script type="text/javascript" src="src/date_difference.js" charset="utf-8"></script> -->
     <!-- // END -->
 
+    <script type="text/javascript" src="src/formhelper.js" charset="utf-8"></script>
+
     <!-- This script is used to configure the TimeSeries component -->
     <script>
 
       var config = {
-        targetDate: new Date('2015-10-01T18:00:00-04:00'),
+        targetDate: new Date('2015-10-31T18:00:00-04:00'),
         targetShowDuration: 59,
         imageElement: 'dateID',
         videoElement: 'videoID',
@@ -45,6 +47,7 @@
           '0_weeks': './img/this_week.png',
           'outside_weeks_before': './img/outside_weeks_before.png',
           'outside_days_before': './img/outside_days_before.png',
+          '-1_days': './img/tomorrow.png',
           '0_days': './img/tomorrow.png',
           'tonight': './img/tonight.png',
           'evergreen_weeks_after': './img/evergreen_weeks_after.png',
@@ -68,7 +71,7 @@
       btr.init();
 
       // This is just for testing and will be omitted for production.
-      // formHelper(btr);
+      formHelper(btr);
 
     </script>
     <!-- END -->

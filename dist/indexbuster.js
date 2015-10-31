@@ -26,6 +26,7 @@ BusterTimeSeries = (function() {
 
   BusterTimeSeries.prototype.setImageElement = function(image_uri) {
     var el;
+    console.log(image_uri);
     if (!this.config.imageElement) {
       return;
     }
@@ -41,12 +42,11 @@ BusterTimeSeries = (function() {
     }
     el = document.getElementById(this.config.videoElement);
     if (window.gwd) {
-      el.gwdDeactivate();
       el.setAttribute('sources', video_uri);
       return setTimeout(function() {
         el.src = el.childNodes[0].src;
         return el.load();
-      }, 500);
+      }, 1000);
     } else {
       return el.setAttribute('src', video_uri);
     }
@@ -57,6 +57,8 @@ BusterTimeSeries = (function() {
     week_before = this.currentDate.isBefore(this.targetDate, 'week');
     this_week = this.currentDate.isSame(this.targetDate, 'week');
     week_after = this.currentDate.isAfter(this.targetDate, 'week');
+    console.log(this.currentDate);
+    console.log(this.targetDate);
     if (week_before) {
       return this.setWeekBeforeImage();
     }
@@ -70,6 +72,7 @@ BusterTimeSeries = (function() {
 
   BusterTimeSeries.prototype.setWeekBeforeImage = function() {
     var weeks_before;
+    console.log('week before image');
     weeks_before = this.currentDate.diff(this.targetDate, 'weeks');
     this.setImageElement(this.config.images[weeks_before + '_weeks'] || this.config.images.outside_weeks_before);
     return this.setVideoElement(this.config.videos[weeks_before + '_weeks'] || this.config.videos.outside_weeks_before);
@@ -78,6 +81,7 @@ BusterTimeSeries = (function() {
   BusterTimeSeries.prototype.setThisWeekImage = function() {
     var days_before, temp_target_date;
     days_before = this.currentDate.diff(this.targetDate, 'days');
+    console.log('this week image', this.currentDate.isoWeekday(), this.targetDate.isoWeekday(), days_before);
     temp_target_date = moment(this.config.targetDate);
     if (this.currentDate.isAfter(this.targetDate, 'day') || this.currentDate.isAfter(temp_target_date.add(this.config.targetShowDuration, 'minutes'))) {
       return this.setWeekAfterImage(false);
@@ -93,6 +97,7 @@ BusterTimeSeries = (function() {
 
   BusterTimeSeries.prototype.setWeekAfterImage = function(evergreen) {
     var weeks_after;
+    console.log('week after image');
     weeks_after = this.currentDate.diff(this.targetDate, 'weeks');
     if (evergreen !== false) {
       if (this.currentDate.isoWeekday() === this.targetDate.isoWeekday() && this.evergreen_day_of) {
