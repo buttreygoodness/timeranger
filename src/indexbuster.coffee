@@ -47,7 +47,7 @@ class BusterTimeSeries
         el.src = el.childNodes[0].src
         el.load()
         # el.gwdActivate()
-      , 1000
+      , 3000
     else
       el.setAttribute 'src', video_uri
 
@@ -55,9 +55,6 @@ class BusterTimeSeries
     week_before = @currentDate.isBefore(@targetDate, 'week')
     this_week = @currentDate.isSame(@targetDate, 'week')
     week_after = @currentDate.isAfter(@targetDate, 'week')
-
-    console.log @currentDate
-    console.log @targetDate
 
     if week_before
       return @setWeekBeforeImage()
@@ -67,26 +64,25 @@ class BusterTimeSeries
       return @setWeekAfterImage()
 
   setWeekBeforeImage: ->
-    console.log 'week before image'
     weeks_before = @currentDate.diff(@targetDate, 'weeks')
     @setImageElement @config.images[weeks_before + '_weeks'] || @config.images.outside_weeks_before
     @setVideoElement @config.videos[weeks_before + '_weeks'] || @config.videos.outside_weeks_before
 
   setThisWeekImage: ->
     days_before = @currentDate.diff(@targetDate, 'days')
-    console.log 'this week image', @currentDate.isoWeekday(), @targetDate.isoWeekday(), days_before
     temp_target_date = moment(@config.targetDate)
     if @currentDate.isAfter(@targetDate, 'day') || @currentDate.isAfter(temp_target_date.add(@config.targetShowDuration, 'minutes'))
-      return @setWeekAfterImage(false)
-    if @currentDate.isoWeekday() == @targetDate.isoWeekday()
-      @setVideoElement @config.videos.tonight
-      @setImageElement @config.images.tonight
-      return
+      if @currentDate.isoWeekday() == @targetDate.isoWeekday()
+        @setVideoElement @config.videos.tonight
+        @setImageElement @config.images.tonight
+        return
+      else
+        return @setWeekAfterImage(false)
+
     @setVideoElement @config.videos[days_before + '_days'] || @config.videos.outside_days_before || @config.videos.outside_weeks_before
     @setImageElement @config.images[days_before + '_days'] || @config.images.outside_days_before
 
   setWeekAfterImage: (evergreen) ->
-    console.log 'week after image'
     weeks_after = @currentDate.diff(@targetDate, 'weeks')
     if evergreen != false
       if @currentDate.isoWeekday() == @targetDate.isoWeekday() && @evergreen_day_of
