@@ -71,8 +71,12 @@ BusterTimeSeries = (function() {
   BusterTimeSeries.prototype.setWeekBeforeImage = function() {
     var weeks_before;
     weeks_before = this.currentDate.diff(this.targetDate, 'weeks');
-    this.setImageElement(this.config.images[weeks_before + '_weeks'] || this.config.images.outside_weeks_before);
-    return this.setVideoElement(this.config.videos[weeks_before + '_weeks'] || this.config.videos.outside_weeks_before);
+    if (this.config.images) {
+      this.setImageElement(this.config.images[weeks_before + '_weeks'] || this.config.images.outside_weeks_before);
+    }
+    if (this.config.videos) {
+      return this.setVideoElement(this.config.videos[weeks_before + '_weeks'] || this.config.videos.outside_weeks_before);
+    }
   };
 
   BusterTimeSeries.prototype.setThisWeekImage = function() {
@@ -81,15 +85,23 @@ BusterTimeSeries = (function() {
     temp_target_date = moment(this.config.targetDate);
     if (this.currentDate.isAfter(this.targetDate, 'day') || this.currentDate.isAfter(temp_target_date.add(this.config.targetShowDuration, 'minutes'))) {
       if (this.currentDate.isoWeekday() === this.targetDate.isoWeekday()) {
-        this.setVideoElement(this.config.videos.tonight);
-        this.setImageElement(this.config.images.tonight);
+        if (this.config.images) {
+          this.setImageElement(this.config.images.tonight);
+        }
+        if (this.config.videos) {
+          this.setVideoElement(this.config.videos.tonight);
+        }
         return;
       } else {
         return this.setWeekAfterImage(false);
       }
     }
-    this.setVideoElement(this.config.videos[days_before + '_days'] || this.config.videos.outside_days_before || this.config.videos.outside_weeks_before);
-    return this.setImageElement(this.config.images[days_before + '_days'] || this.config.images.outside_days_before);
+    if (this.config.images) {
+      this.setImageElement(this.config.images[days_before + '_days'] || this.config.images.outside_days_before);
+    }
+    if (this.config.videos) {
+      return this.setVideoElement(this.config.videos[days_before + '_days'] || this.config.videos.outside_days_before || this.config.videos.outside_weeks_before);
+    }
   };
 
   BusterTimeSeries.prototype.setWeekAfterImage = function(evergreen) {
@@ -97,15 +109,21 @@ BusterTimeSeries = (function() {
     weeks_after = this.currentDate.diff(this.targetDate, 'weeks');
     if (evergreen !== false) {
       if (this.currentDate.isoWeekday() === this.targetDate.isoWeekday() && this.evergreen_day_of) {
-        this.setVideoElement(this.config.videos.evergreen_day_of);
+        if (this.config.videos) {
+          this.setVideoElement(this.config.videos.evergreen_day_of);
+        }
         return this.setImageElement(this.config.images.evergreen_day_of);
       }
       if (this.currentDate.isoWeekday() === this.targetDate.isoWeekday() - 1 && this.evergreen_day_before) {
-        this.setVideoElement(this.config.videos.evergreen_day_before);
+        if (this.config.videos) {
+          this.setVideoElement(this.config.videos.evergreen_day_before);
+        }
         return this.setImageElement(this.config.images.evergreen_day_before);
       }
     }
-    this.setVideoElement(this.config.videos[weeks_after + '_weeks_after'] || this.config.videos.evergreen_weeks_after);
+    if (this.config.videos) {
+      this.setVideoElement(this.config.videos[weeks_after + '_weeks_after'] || this.config.videos.evergreen_weeks_after);
+    }
     return this.setImageElement(this.config.images[weeks_after + '_weeks_after'] || this.config.images.evergreen_weeks_after);
   };
 
