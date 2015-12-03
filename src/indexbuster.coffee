@@ -1,5 +1,5 @@
 #! timerange.js
-#! version : 1.0.0
+#! version : 1.1.0
 #! authors : Buster, Inc.
 #! license : GPL2
 
@@ -23,7 +23,6 @@ class BusterTimeSeries
     @getTimeDifference()
   
   setImageElement: (image_uri) ->
-    console.log image_uri
 
     if !@config.imageElement
       return
@@ -57,13 +56,10 @@ class BusterTimeSeries
     week_after = @currentDate.isAfter(@targetDate, 'week')
 
     if week_before
-      console.log 'week_before'
       return @setWeekBeforeImage()
     if this_week
-      console.log 'this_week'
       return @setThisWeekImage()
     if week_after
-      console.log 'week_after'
       return @setWeekAfterImage()
 
   setWeekBeforeImage: ->

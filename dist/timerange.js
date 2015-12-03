@@ -33,7 +33,6 @@ BusterTimeSeries = (function() {
 
   BusterTimeSeries.prototype.setImageElement = function(image_uri) {
     var el;
-    console.log(image_uri);
     if (!this.config.imageElement) {
       return;
     }
@@ -65,15 +64,12 @@ BusterTimeSeries = (function() {
     this_week = this.currentDate.isSame(this.targetDate, 'week');
     week_after = this.currentDate.isAfter(this.targetDate, 'week');
     if (week_before) {
-      console.log('week_before');
       return this.setWeekBeforeImage();
     }
     if (this_week) {
-      console.log('this_week');
       return this.setThisWeekImage();
     }
     if (week_after) {
-      console.log('week_after');
       return this.setWeekAfterImage();
     }
   };
