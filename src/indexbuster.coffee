@@ -33,7 +33,6 @@ class BusterTimeSeries
     el.setAttribute 'source', image_uri
 
   setVideoElement: (video_uri) ->
-    # console.log video_url
 
     if !@config.videoElement
       return
@@ -58,14 +57,24 @@ class BusterTimeSeries
     week_after = @currentDate.isAfter(@targetDate, 'week')
 
     if week_before
+      console.log 'week_before'
       return @setWeekBeforeImage()
     if this_week
+      console.log 'this_week'
       return @setThisWeekImage()
     if week_after
+      console.log 'week_after'
       return @setWeekAfterImage()
 
   setWeekBeforeImage: ->
+    days_before = @currentDate.diff(@targetDate, 'days')
     weeks_before = @currentDate.diff(@targetDate, 'weeks')
+    if weeks_before == -0 && days_before == -6
+      if @config.images
+        @setImageElement @config.images.outside_weeks_before
+      if @config.videos
+        @setVideoElement @config.videos.outside_weeks_before
+      return
     if @config.images
       @setImageElement @config.images[weeks_before + '_weeks'] || @config.images.outside_weeks_before
     if @config.videos
@@ -74,7 +83,13 @@ class BusterTimeSeries
   setThisWeekImage: ->
     days_before = @currentDate.diff(@targetDate, 'days')
     temp_target_date = moment(@config.targetDate)
-    if @currentDate.isAfter(@targetDate, 'day') || @currentDate.isAfter(temp_target_date.add(@config.targetShowDuration, 'minutes'))
+    if @currentDate.isSame(@targetDate, 'day')
+      if @config.images
+        @setImageElement @config.images.tonight
+      if @config.videos
+        @setVideoElement @config.videos.tonight
+      return
+    if @currentDate.isAfter(@targetDate, 'day')
       if @currentDate.isoWeekday() == @targetDate.isoWeekday()
         if @config.images
           @setImageElement @config.images.tonight

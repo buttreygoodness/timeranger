@@ -62,6 +62,8 @@ gulp.task('move', function() {
   gulp.src('./dist/timerange.js')
     .pipe(gulp.dest('./date_test_gwd/'))
     .pipe(gulp.dest('./date_test_gwd/gwd_preview'))
+    .pipe(gulp.dest('./date_test_gwd/gwd_preview_Buster_Date_Test_GWD'))
+    .pipe(gulp.dest('./date_test_gwd/gwd_preview_Buster_Date_Test_GWD_IMG'))
 });
 
 gulp.task('watch', function() {

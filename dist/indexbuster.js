@@ -58,19 +58,32 @@ BusterTimeSeries = (function() {
     this_week = this.currentDate.isSame(this.targetDate, 'week');
     week_after = this.currentDate.isAfter(this.targetDate, 'week');
     if (week_before) {
+      console.log('week_before');
       return this.setWeekBeforeImage();
     }
     if (this_week) {
+      console.log('this_week');
       return this.setThisWeekImage();
     }
     if (week_after) {
+      console.log('week_after');
       return this.setWeekAfterImage();
     }
   };
 
   BusterTimeSeries.prototype.setWeekBeforeImage = function() {
-    var weeks_before;
+    var days_before, weeks_before;
+    days_before = this.currentDate.diff(this.targetDate, 'days');
     weeks_before = this.currentDate.diff(this.targetDate, 'weeks');
+    if (weeks_before === -0 && days_before === -6) {
+      if (this.config.images) {
+        this.setImageElement(this.config.images.outside_weeks_before);
+      }
+      if (this.config.videos) {
+        this.setVideoElement(this.config.videos.outside_weeks_before);
+      }
+      return;
+    }
     if (this.config.images) {
       this.setImageElement(this.config.images[weeks_before + '_weeks'] || this.config.images.outside_weeks_before);
     }
@@ -83,7 +96,16 @@ BusterTimeSeries = (function() {
     var days_before, temp_target_date;
     days_before = this.currentDate.diff(this.targetDate, 'days');
     temp_target_date = moment(this.config.targetDate);
-    if (this.currentDate.isAfter(this.targetDate, 'day') || this.currentDate.isAfter(temp_target_date.add(this.config.targetShowDuration, 'minutes'))) {
+    if (this.currentDate.isSame(this.targetDate, 'day')) {
+      if (this.config.images) {
+        this.setImageElement(this.config.images.tonight);
+      }
+      if (this.config.videos) {
+        this.setVideoElement(this.config.videos.tonight);
+      }
+      return;
+    }
+    if (this.currentDate.isAfter(this.targetDate, 'day')) {
       if (this.currentDate.isoWeekday() === this.targetDate.isoWeekday()) {
         if (this.config.images) {
           this.setImageElement(this.config.images.tonight);
