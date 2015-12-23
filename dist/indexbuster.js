@@ -130,19 +130,27 @@ BusterTimeSeries = (function() {
         if (this.config.videos) {
           this.setVideoElement(this.config.videos.evergreen_day_of);
         }
-        return this.setImageElement(this.config.images.evergreen_day_of);
+        if (this.config.images) {
+          this.setImageElement(this.config.images.evergreen_day_of);
+        }
+        return;
       }
       if (this.currentDate.isoWeekday() === this.targetDate.isoWeekday() - 1 && this.evergreen_day_before) {
         if (this.config.videos) {
           this.setVideoElement(this.config.videos.evergreen_day_before);
         }
-        return this.setImageElement(this.config.images.evergreen_day_before);
+        if (this.config.images) {
+          this.setImageElement(this.config.images.evergreen_day_before);
+        }
+        return;
       }
     }
     if (this.config.videos) {
       this.setVideoElement(this.config.videos[weeks_after + '_weeks_after'] || this.config.videos.evergreen_weeks_after);
     }
-    return this.setImageElement(this.config.images[weeks_after + '_weeks_after'] || this.config.images.evergreen_weeks_after);
+    if (this.config.images) {
+      return this.setImageElement(this.config.images[weeks_after + '_weeks_after'] || this.config.images.evergreen_weeks_after);
+    }
   };
 
   return BusterTimeSeries;

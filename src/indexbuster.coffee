@@ -106,13 +106,18 @@ class BusterTimeSeries
       if @currentDate.isoWeekday() == @targetDate.isoWeekday() && @evergreen_day_of
         if @config.videos
           @setVideoElement @config.videos.evergreen_day_of
-        return @setImageElement @config.images.evergreen_day_of
+        if @config.images
+          @setImageElement @config.images.evergreen_day_of
+        return 
       if @currentDate.isoWeekday() == @targetDate.isoWeekday() - 1 && @evergreen_day_before
         if @config.videos
           @setVideoElement @config.videos.evergreen_day_before
-        return @setImageElement @config.images.evergreen_day_before
+        if @config.images
+          @setImageElement @config.images.evergreen_day_before
+        return
     if @config.videos
       @setVideoElement @config.videos[weeks_after + '_weeks_after'] || @config.videos.evergreen_weeks_after
-    @setImageElement @config.images[weeks_after + '_weeks_after'] || @config.images.evergreen_weeks_after
+    if @config.images
+      @setImageElement @config.images[weeks_after + '_weeks_after'] || @config.images.evergreen_weeks_after
 
 window.BusterTimeSeries = BusterTimeSeries

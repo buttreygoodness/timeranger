@@ -35,7 +35,7 @@
     <script>
 
       var config = {
-        targetDate: new Date('2015-12-15T18:00:00'),
+        targetDate: new Date('2016-02-11T18:00:00'),
         targetShowDuration: 59,
         imageElement: 'dateID',
         videoElement: 'videoID',
@@ -47,21 +47,34 @@
           '0_weeks': './img/this_week.png',
           'outside_weeks_before': './img/outside_weeks_before.png',
           'outside_days_before': './img/outside_days_before.png',
-          '0_days': './img/tomorrow.png',
+          '-1_days': './img/tomorrow.png',
           'tonight': './img/tonight.png',
           'evergreen_weeks_after': './img/evergreen_weeks_after.png',
           'evergreen_day_before': './img/evergreen_day_before.png',
           'evergreen_day_of': './img/evergreen_day_of.png'
         },
         videos: {
-          'outside_weeks_before': './video/video_01.mp4',
-          'outside_days_before': './video/video_05.mp4',
-          '0_weeks': './video/video_02.mp4', // This week
-          '-1_days': './video/video_03.mp4', // Tomorrow
-          'tonight': './video/video_03.mp4', // Tonight
-          'evergreen_weeks_after': './video/video_05.mp4',
-          'evergreen_day_before': './video/video_03.mp4',
-          'evergreen_day_of': './video/video_04.mp4'
+          // 'outside_weeks_before': './video/video_01.mp4',
+          // 'outside_days_before': './video/video_05.mp4',
+          // '0_weeks': './video/video_02.mp4', // This week
+          // '-1_days': './video/video_03.mp4', // Tomorrow
+          // 'tonight': './video/video_03.mp4', // Tonight
+          // 'evergreen_weeks_after': './video/video_05.mp4',
+          // 'evergreen_day_before': './video/video_03.mp4',
+          // 'evergreen_day_of': './video/video_04.mp4'
+          'outside_weeks_before': 'https://s3-us-west-2.amazonaws.com/trutv-twc/video/300x250/TruTV_TWC_300x250_01.mp4',
+          'outside_days_before': 'https://s3-us-west-2.amazonaws.com/trutv-twc/video/300x250/TruTV_TWC_300x250_01.mp4',
+          '0_weeks': 'https://s3-us-west-2.amazonaws.com/trutv-twc/video/300x250/TruTV_TWC_300x250_02.mp4', // This week
+          '-5_days': 'https://s3-us-west-2.amazonaws.com/trutv-twc/video/300x250/TruTV_TWC_300x250_02.mp4', // 6 days before
+          '-4_days': 'https://s3-us-west-2.amazonaws.com/trutv-twc/video/300x250/TruTV_TWC_300x250_02.mp4', // 5 days before
+          '-3_days': 'https://s3-us-west-2.amazonaws.com/trutv-twc/video/300x250/TruTV_TWC_300x250_02.mp4', // 4 days before
+          '-2_days': 'https://s3-us-west-2.amazonaws.com/trutv-twc/video/300x250/TruTV_TWC_300x250_02.mp4', // 3 days before
+          '-1_days': 'https://s3-us-west-2.amazonaws.com/trutv-twc/video/300x250/TruTV_TWC_300x250_02.mp4', // 2 days before
+          '0_days': 'https://s3-us-west-2.amazonaws.com/trutv-twc/video/300x250/TruTV_TWC_300x250_03.mp4', // Tomorrow
+          'tonight': 'https://s3-us-west-2.amazonaws.com/trutv-twc/video/300x250/TruTV_TWC_300x250_04.mp4', // Tonight
+          'evergreen_day_of': 'https://s3-us-west-2.amazonaws.com/trutv-twc/video/300x250/TruTV_TWC_300x250_04.mp4', // the video that plays on the air date evergreen
+          'evergreen_day_before': 'https://s3-us-west-2.amazonaws.com/trutv-twc/video/300x250/TruTV_TWC_300x250_03.mp4', // the video that plays the day before air date evergreen
+          'evergreen_weeks_after': 'https://s3-us-west-2.amazonaws.com/trutv-twc/video/300x250/TruTV_TWC_300x250_evergreen.mp4' // the video that plays evergreen when the above conditions are not met (most of the time)
         }
       };
 
