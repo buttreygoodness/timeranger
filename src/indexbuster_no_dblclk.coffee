@@ -38,17 +38,7 @@ class BusterTimeSeries
     
     el = document.getElementById @config.videoElement
 
-    if window.gwd
-      # el.gwdDeactivate()
-      el.setAttribute 'sources', video_uri
-
-      setTimeout () ->
-        el.src = el.childNodes[0].src
-        el.load()
-        # el.gwdActivate()
-      , 3000
-    else
-      el.setAttribute 'src', video_uri
+    el.setAttribute 'src', video_uri
 
   getTimeDifference: () ->
     week_before = @currentDate.isBefore(@targetDate, 'week')

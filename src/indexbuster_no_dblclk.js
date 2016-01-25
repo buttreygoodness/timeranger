@@ -40,15 +40,7 @@ BusterTimeSeries = (function() {
       return;
     }
     el = document.getElementById(this.config.videoElement);
-    if (window.gwd) {
-      el.setAttribute('sources', video_uri);
-      return setTimeout(function() {
-        el.src = el.childNodes[0].src;
-        return el.load();
-      }, 3000);
-    } else {
-      return el.setAttribute('src', video_uri);
-    }
+    return el.setAttribute('src', video_uri);
   };
 
   BusterTimeSeries.prototype.getTimeDifference = function() {

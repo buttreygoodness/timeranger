@@ -1,39 +1,3 @@
-<html>
-  <head>
-    <meta charset="utf-8">
-  </head>
-  <body>
-    <h1>Buster.TimeSeries</h1>
-    <div>
-      <video id="videoID" muted="" controls="" source="./video/video_01.mp4" autoplay=""></video>
-      <img id="dateID" src="./img/default_image.png" alt="">
-    </div>
-    <div style="margin-top: 2rem;">
-      <form action="#" id="dateForm">
-        <div>
-          <label for="current_date">Current Date</label>
-          <input type="datetime" name="current_date" id="current_date" style="width: 300px;">
-          <span id="day-of-week"></span>
-          <a href="#" id="previous"><</a>
-          <a href="#" id="next">></a>
-        </div>
-        <div>
-          <label for="target_date">Target Date</label>
-          <input type="datetime" name="target_date" id="target_date" style="width: 300px;" disabled="true">
-        </div>
-      </form>
-    </div>
-
-    <!--  This script will be included at the top of the page, somewhere in the body -->
-    <script type="text/javascript" src="dist/timerange.js" charset="utf-8"></script>
-    <!-- <script type="text/javascript" src="src/date_difference.js" charset="utf-8"></script> -->
-    <!-- // END -->
-
-    <script type="text/javascript" src="src/formhelper.js" charset="utf-8"></script>
-
-    <!-- This script is used to configure the TimeSeries component -->
-    <script>
-
       var config = {
         targetDate: new Date('2016-01-28T18:00:00'),
         targetShowDuration: 59,
@@ -62,7 +26,7 @@
           '6_days_after': '//placehold.it/300x250?text=6_days_after',
           '7_days_after': '//placehold.it/300x250?text=7_days_after'
         },
-        videos: {
+        videos: { // Same value apply in the videos section
           'outside_week': 'https://s3-us-west-2.amazonaws.com/trutv-twc/video/300x250/TruTV_TWC_300x250_01.mp4',
           'inside_week': 'https://s3-us-west-2.amazonaws.com/trutv-twc/video/300x250/TruTV_TWC_300x250_02.mp4',
           'tomorrow': 'https://s3-us-west-2.amazonaws.com/trutv-twc/video/300x250/TruTV_TWC_300x250_04.mp4', // Tomorrow
@@ -72,16 +36,3 @@
           'sustaining_today': 'https://s3-us-west-2.amazonaws.com/trutv-twc/video/300x250/TruTV_TWC_300x250_05.mp4' // the video that plays on the air date evergreen
         }
       };
-
-      var btr = new BusterTimeSeries(config);
-
-      btr.init();
-
-      // This is just for testing and will be omitted for production.
-      formHelper(btr);
-
-    </script>
-    <!-- END -->
-
-  </body>
-</html>
