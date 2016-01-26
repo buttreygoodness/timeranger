@@ -63,7 +63,7 @@ class BusterTimeSeries
     if @config.images
       @setImageElement @config.images[(_temp_days_before + 1) + '_days_before'] || @config.images.outside_week
     if @config.videos
-      @setVideoElement @config.images[(_temp_days_before + 1) + '_days_before'] || @config.videos.outside_week
+      @setVideoElement @config.videos[(_temp_days_before + 1) + '_days_before'] || @config.videos.outside_week
 
 
   setThisWeekImage: ->

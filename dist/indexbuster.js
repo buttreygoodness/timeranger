@@ -73,7 +73,7 @@ BusterTimeSeries = (function() {
       this.setImageElement(this.config.images[(_temp_days_before + 1) + '_days_before'] || this.config.images.outside_week);
     }
     if (this.config.videos) {
-      return this.setVideoElement(this.config.images[(_temp_days_before + 1) + '_days_before'] || this.config.videos.outside_week);
+      return this.setVideoElement(this.config.videos[(_temp_days_before + 1) + '_days_before'] || this.config.videos.outside_week);
     }
   };
 
