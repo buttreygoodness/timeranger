@@ -69,19 +69,22 @@ class BusterTimeSeries
   setThisWeekImage: ->
     days_before = @currentDate.diff(@targetDate, 'days')
     temp_target_date = moment(@config.targetDate)
-        
-    if @currentDate.isSame(@targetDate, 'day')
-      if @config.images
-        @setImageElement @config.images.today
-      if @config.videos
-        @setVideoElement @config.videos.today
-      return
-    if days_before == -0
+    is_same_day = @currentDate.isSame(@targetDate, 'day');
+    
+    if days_before == -0 && !is_same_day
       if @config.images
         @setImageElement @config.images.tomorrow
       if @config.videos
         @setVideoElement @config.videos.tomorrow
       return
+
+    if is_same_day
+      if @config.images
+        @setImageElement @config.images.today
+      if @config.videos
+        @setVideoElement @config.videos.today
+      return
+      
     if @currentDate.isAfter(@targetDate, 'day')
         return @setWeekAfterImage(false)
 

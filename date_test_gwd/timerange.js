@@ -85,24 +85,25 @@ BusterTimeSeries = (function() {
   };
 
   BusterTimeSeries.prototype.setThisWeekImage = function() {
-    var _temp_days_before, days_before, temp_target_date;
+    var _temp_days_before, days_before, is_same_day, temp_target_date;
     days_before = this.currentDate.diff(this.targetDate, 'days');
     temp_target_date = moment(this.config.targetDate);
-    if (this.currentDate.isSame(this.targetDate, 'day')) {
-      if (this.config.images) {
-        this.setImageElement(this.config.images.today);
-      }
-      if (this.config.videos) {
-        this.setVideoElement(this.config.videos.today);
-      }
-      return;
-    }
-    if (days_before === -0) {
+    is_same_day = this.currentDate.isSame(this.targetDate, 'day');
+    if (days_before === -0 && !is_same_day) {
       if (this.config.images) {
         this.setImageElement(this.config.images.tomorrow);
       }
       if (this.config.videos) {
         this.setVideoElement(this.config.videos.tomorrow);
+      }
+      return;
+    }
+    if (is_same_day) {
+      if (this.config.images) {
+        this.setImageElement(this.config.images.today);
+      }
+      if (this.config.videos) {
+        this.setVideoElement(this.config.videos.today);
       }
       return;
     }
