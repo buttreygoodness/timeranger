@@ -36,6 +36,7 @@ gulp.task('concat', function() {
 });
 
 gulp.task('test', function() {
+  console.log('Testing ---');
   return gulp.src('test.js', {
       read: false
     })

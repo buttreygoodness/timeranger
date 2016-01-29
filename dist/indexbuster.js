@@ -1,6 +1,9 @@
 
 /**
- * BusterTimeSeries v1.1.2
+ * BusterTimeSeries v1.1.4
+ * version : 1.1.2
+ * authors : Buster, Inc.
+ * license : GPL2
  * Class for determining time ranges and applying corresponding changes to the dom.
  * @param {Object} config configuration file containing directives.
  */
@@ -83,7 +86,10 @@ BusterTimeSeries = (function() {
     days_before = this.currentDate.diff(this.targetDate, 'days');
     temp_target_date = moment(this.config.targetDate);
     is_same_day = this.currentDate.isSame(this.targetDate, 'day');
-    if (days_before === -0 && !is_same_day) {
+    _temp_days_before = days_before * -1;
+    console.log('_temp_days_before', _temp_days_before, is_same_day);
+    if (_temp_days_before === 1 && !is_same_day) {
+      console.log('tomorrow');
       if (this.config.images) {
         this.setImageElement(this.config.images.tomorrow);
       }
@@ -93,6 +99,7 @@ BusterTimeSeries = (function() {
       return;
     }
     if (is_same_day) {
+      console.log('same_day');
       if (this.config.images) {
         this.setImageElement(this.config.images.today);
       }
@@ -102,21 +109,22 @@ BusterTimeSeries = (function() {
       return;
     }
     if (this.currentDate.isAfter(this.targetDate, 'day')) {
+      console.log('is_after');
       return this.setWeekAfterImage(false);
     }
-    _temp_days_before = days_before * -1;
     if (this.config.images) {
-      this.setImageElement(this.config.images[(_temp_days_before + 1) + '_days_before'] || this.config.images.inside_week);
+      this.setImageElement(this.config.images[_temp_days_before + '_days_before'] || this.config.images.inside_week);
     }
     if (this.config.videos) {
-      return this.setVideoElement(this.config.videos[(_temp_days_before + 1) + '_days_before'] || this.config.videos.inside_week);
+      return this.setVideoElement(this.config.videos[_temp_days_before + '_days_before'] || this.config.videos.inside_week);
     }
   };
 
   BusterTimeSeries.prototype.setWeekAfterImage = function(evergreen) {
     var days_after, weeks_after;
     weeks_after = this.currentDate.diff(this.targetDate, 'weeks');
-    days_after = this.currentDate.diff(this.targetDate, 'days');
+    days_after = this.currentDate.diff(this.targetDate, 'days') + 1;
+    console.log('days_after', days_after);
     if (this.config.images) {
       if (this.config.images[days_after + '_days_after']) {
         evergreen = false;

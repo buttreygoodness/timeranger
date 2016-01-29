@@ -1,10 +1,8 @@
-#! timerange.js
-#! version : 1.1.2
-#! authors : Buster, Inc.
-#! license : GPL2
-
 ###*
- * BusterTimeSeries v1.1.2
+ * BusterTimeSeries v1.1.4
+ * version : 1.1.2
+ * authors : Buster, Inc.
+ * license : GPL2
  * Class for determining time ranges and applying corresponding changes to the dom.
  * @param {Object} config configuration file containing directives.
 ###
@@ -70,9 +68,13 @@ class BusterTimeSeries
   setThisWeekImage: ->
     days_before = @currentDate.diff(@targetDate, 'days')
     temp_target_date = moment(@config.targetDate)
-    is_same_day = @currentDate.isSame(@targetDate, 'day');
+    is_same_day = @currentDate.isSame(@targetDate, 'day')
+    _temp_days_before = days_before * -1
+
+    console.log '_temp_days_before', _temp_days_before, is_same_day
     
-    if days_before == -0 && !is_same_day
+    if _temp_days_before == 1 && !is_same_day
+      console.log 'tomorrow'
       if @config.images
         @setImageElement @config.images.tomorrow
       if @config.videos
@@ -80,6 +82,7 @@ class BusterTimeSeries
       return
 
     if is_same_day
+      console.log 'same_day'
       if @config.images
         @setImageElement @config.images.today
       if @config.videos
@@ -87,18 +90,19 @@ class BusterTimeSeries
       return
       
     if @currentDate.isAfter(@targetDate, 'day')
-        return @setWeekAfterImage(false)
-
-    _temp_days_before = days_before * -1
+      console.log ('is_after')
+      return @setWeekAfterImage(false)
 
     if @config.images
-      @setImageElement @config.images[(_temp_days_before + 1) + '_days_before'] || @config.images.inside_week
+      @setImageElement @config.images[(_temp_days_before) + '_days_before'] || @config.images.inside_week
     if @config.videos
-      @setVideoElement @config.videos[(_temp_days_before + 1) + '_days_before'] || @config.videos.inside_week
+      @setVideoElement @config.videos[(_temp_days_before) + '_days_before'] || @config.videos.inside_week
 
   setWeekAfterImage: (evergreen) ->
     weeks_after = @currentDate.diff(@targetDate, 'weeks')
-    days_after = @currentDate.diff(@targetDate, 'days')
+    days_after = @currentDate.diff(@targetDate, 'days') + 1
+
+    console.log 'days_after', days_after
 
     if @config.images
       if @config.images[days_after + '_days_after']
