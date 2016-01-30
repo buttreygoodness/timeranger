@@ -73,6 +73,10 @@ BusterTimeSeries = (function() {
     days_before = this.currentDate.diff(this.targetDate, 'days');
     weeks_before = this.currentDate.diff(this.targetDate, 'weeks');
     _temp_days_before = days_before * -1;
+    if (_temp_days_before <= 6) {
+      this.setThisWeekImage();
+      return;
+    }
     if (this.config.images) {
       this.setImageElement(this.config.images[(_temp_days_before + 1) + '_days_before'] || this.config.images.outside_week);
     }
