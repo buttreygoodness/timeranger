@@ -1,7 +1,7 @@
 
 /**
- * BusterTimeSeries v1.1.4
- * version : 1.1.2
+ * BusterTimeSeries
+ * version : 1.1.4
  * authors : Buster, Inc.
  * license : GPL2
  * Class for determining time ranges and applying corresponding changes to the dom.

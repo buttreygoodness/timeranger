@@ -66,7 +66,7 @@ describe('BusterTimeSeries', function() {
     var _currentDate = [btr.currentDate.year(), btr.currentDate.month(), btr.currentDate.date()].join(' ').toString();
     var _now = [now.year(), now.month(), now.date()].join(' ').toString();
     console.log(_currentDate, _now);
-    assert.equal(btr.currentDate.date(), now.date(), 'currentDate is same as now.');
+    assert.equal(_, now.date(), 'currentDate is same as now.');
   });
 
 });
