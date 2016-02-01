@@ -8,7 +8,7 @@ Nd.millisecond=Nd.milliseconds=Md,Nd.utcOffset=Na,Nd.utc=Pa,Nd.local=Qa,Nd.parse
 
 /**
  * BusterTimeSeries
- * version : 1.1.4
+ * version : 1.1.5
  * authors : Buster, Inc.
  * license : GPL2
  * Class for determining time ranges and applying corresponding changes to the dom.
@@ -99,7 +99,7 @@ BusterTimeSeries = (function() {
     is_same_day = this.currentDate.isSame(this.targetDate, 'day');
     _temp_days_before = days_before * -1;
     console.log('_temp_days_before', _temp_days_before, is_same_day);
-    if (_temp_days_before === 1 && !is_same_day) {
+    if (_temp_days_before === 0 && !is_same_day) {
       console.log('tomorrow');
       if (this.config.images) {
         this.setImageElement(this.config.images.tomorrow);
@@ -124,17 +124,17 @@ BusterTimeSeries = (function() {
       return this.setWeekAfterImage(false);
     }
     if (this.config.images) {
-      this.setImageElement(this.config.images[_temp_days_before + '_days_before'] || this.config.images.inside_week);
+      this.setImageElement(this.config.images[(_temp_days_before + 1) + '_days_before'] || this.config.images.inside_week);
     }
     if (this.config.videos) {
-      return this.setVideoElement(this.config.videos[_temp_days_before + '_days_before'] || this.config.videos.inside_week);
+      return this.setVideoElement(this.config.videos[(_temp_days_before + 1) + '_days_before'] || this.config.videos.inside_week);
     }
   };
 
   BusterTimeSeries.prototype.setWeekAfterImage = function(evergreen) {
     var days_after, weeks_after;
     weeks_after = this.currentDate.diff(this.targetDate, 'weeks');
-    days_after = this.currentDate.diff(this.targetDate, 'days') + 1;
+    days_after = this.currentDate.diff(this.targetDate, 'days');
     console.log('days_after', days_after);
     if (this.config.images) {
       if (this.config.images[days_after + '_days_after']) {

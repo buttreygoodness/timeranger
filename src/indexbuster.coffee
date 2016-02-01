@@ -1,6 +1,6 @@
 ###*
  * BusterTimeSeries
- * version : 1.1.4
+ * version : 1.1.5
  * authors : Buster, Inc.
  * license : GPL2
  * Class for determining time ranges and applying corresponding changes to the dom.
@@ -77,7 +77,7 @@ class BusterTimeSeries
 
     console.log '_temp_days_before', _temp_days_before, is_same_day
     
-    if _temp_days_before == 1 && !is_same_day
+    if _temp_days_before == 0 && !is_same_day
       console.log 'tomorrow'
       if @config.images
         @setImageElement @config.images.tomorrow
@@ -98,13 +98,13 @@ class BusterTimeSeries
       return @setWeekAfterImage(false)
 
     if @config.images
-      @setImageElement @config.images[(_temp_days_before) + '_days_before'] || @config.images.inside_week
+      @setImageElement @config.images[(_temp_days_before + 1) + '_days_before'] || @config.images.inside_week
     if @config.videos
-      @setVideoElement @config.videos[(_temp_days_before) + '_days_before'] || @config.videos.inside_week
+      @setVideoElement @config.videos[(_temp_days_before + 1) + '_days_before'] || @config.videos.inside_week
 
   setWeekAfterImage: (evergreen) ->
     weeks_after = @currentDate.diff(@targetDate, 'weeks')
-    days_after = @currentDate.diff(@targetDate, 'days') + 1
+    days_after = @currentDate.diff(@targetDate, 'days')
 
     console.log 'days_after', days_after
 
@@ -127,8 +127,8 @@ class BusterTimeSeries
         return
 
     if @config.videos
-      @setVideoElement @config.videos[days_after + '_days_after'] || @config.videos.sustaining_generic
+      @setVideoElement @config.videos[(days_after) + '_days_after'] || @config.videos.sustaining_generic
     if @config.images
-      @setImageElement @config.images[days_after + '_days_after'] || @config.images.sustaining_generic
+      @setImageElement @config.images[(days_after) + '_days_after'] || @config.images.sustaining_generic
 
 window.BusterTimeSeries = BusterTimeSeries
