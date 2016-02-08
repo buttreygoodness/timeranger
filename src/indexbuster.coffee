@@ -1,9 +1,10 @@
 #! timerange.js
-#! version : 1.1.0
+#! version : 1.1.2
 #! authors : Buster, Inc.
 #! license : GPL2
 
 ###*
+ * BusterTimeSeries v1.1.2
  * Class for determining time ranges and applying corresponding changes to the dom.
  * @param {Object} config configuration file containing directives.
 ###

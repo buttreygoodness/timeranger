@@ -1,5 +1,6 @@
 
 /**
+ * BusterTimeSeries v1.1.2
  * Class for determining time ranges and applying corresponding changes to the dom.
  * @param {Object} config configuration file containing directives.
  */
